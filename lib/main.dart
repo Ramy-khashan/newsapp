@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:newsapp/screens/bottombar/view.dart';
-import 'package:newsapp/screens/flashscreen/view.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:newsapp/constant.dart';
+import 'package:newsapp/cubit/app_cubit/apiclass.dart';
+import 'package:newsapp/presentaion/flashscreen/view.dart';
+
+import 'cubit/changetheme/cubit/change_theme_cubit.dart';
+import 'cubit/changetheme/cubit/change_theme_state.dart';
 
 void main() {
   runApp(const MyApp());
@@ -9,13 +14,32 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData.dark(),
-      debugShowCheckedModeBanner: false,
-      home: const FlashScreen(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => Api()
+            ..getBusinessNews()
+            ..getGeneralNews()
+            ..getSportNews()
+            ..gethealthNews(),
+        ),
+        BlocProvider(
+          create: (context) => ChangeThemeCubit()..saveTheme(),
+        ),
+      ],
+      child: BlocBuilder<ChangeThemeCubit, ChangeThemeState>(
+        builder: (context, state) {
+          return MaterialApp(
+            theme: light,
+            darkTheme: dark,
+            themeMode: BlocProvider.of<ChangeThemeCubit>(context).theme,
+            debugShowCheckedModeBanner: false,
+            home: const FlashScreen(),
+          );
+        },
+      ),
     );
   }
 }

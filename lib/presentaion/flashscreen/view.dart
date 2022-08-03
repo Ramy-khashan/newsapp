@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:newsapp/screens/bottombar/view.dart';
+import 'package:newsapp/presentaion/bottombar/view.dart';
 
 class FlashScreen extends StatefulWidget {
   const FlashScreen({Key? key}) : super(key: key);
@@ -14,10 +14,10 @@ class _FlashScreenState extends State<FlashScreen> {
   @override
   void initState() {
     super.initState();
-    Timer(Duration(seconds: 5), () {
+    Timer(const Duration(seconds: 5), () {
       Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => BottomBarScreen()),
+          MaterialPageRoute(builder: (context) => const BottomBarScreen()),
           (route) => false);
     });
   }
@@ -28,11 +28,11 @@ class _FlashScreenState extends State<FlashScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          Container(
+          SizedBox(
             height: size.longestSide,
             child: Center(
               child: Lottie.asset(
-                'images/newsblc.json',
+                'assets/images/news.json',
                 fit: BoxFit.fill,
               ),
             ),

@@ -16,10 +16,10 @@ class NewsApi {
 
   NewsApi.fromJson(Map<String, dynamic> json) {
     source = Source.fromJson(json['source']);
-    title = json['title'];
-    description = json['description'] == null ? "" : json['description'];
-    url = json['url'];
-    urlToImage = json['urlToImage'] == null ? "" : json['urlToImage'];
+    title = json['title']??"";
+    description = json['description'] ?? "" ;
+    url = json['url']??"";
+    urlToImage = json['urlToImage']  ?? "" ;
     publishedAt = json['publishedAt'];
   }
 }
