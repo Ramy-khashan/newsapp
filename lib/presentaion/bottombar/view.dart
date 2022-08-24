@@ -63,8 +63,8 @@ class BottomBarScreen extends StatelessWidget {
                   label: 'Sports',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.category),
-                  label: 'General',
+                  icon: Icon(Icons.phone_iphone_sharp),
+                  label: 'Technology',
                 ),
               ],
               type: BottomNavigationBarType.shifting,

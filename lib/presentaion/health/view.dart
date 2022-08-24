@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:newsapp/constant.dart';
 
 import '../../cubit/app_cubit/apiclass.dart';
 import '../../cubit/app_cubit/states.dart';
+import '../../shared/empty_shape.dart';
 import '../../shared/loading_shape.dart';
 import '../../shared/view_news.dart';
 
@@ -20,27 +23,30 @@ class HealthScreen extends StatelessWidget {
           return controller.isLoading == true
               ? const LoadingShapeItem()
               : RefreshIndicator(
-                color: mainColor,
+                  color: mainColor,
                   onRefresh: () async {
                     controller.gethealthNews();
                   },
-                  child: ListView.builder(
-                    physics: const BouncingScrollPhysics(),
-                    padding: EdgeInsets.symmetric(
-                        vertical: size.longestSide * .01,
-                        horizontal: size.shortestSide * .01),
-                    itemBuilder: (context, index) {
-                      return ViewNewsItem(
-                        source: controller.healthNews[index].source.name,
-                        size: size,
-                        description: controller.healthNews[index].description,
-                        title: controller.healthNews[index].title,
-                        img: controller.healthNews[index].urlToImage,
-                        url: controller.healthNews[index].url,
-                      );
-                    },
-                    itemCount: controller.healthNews.length,
-                  ),
+                  child: controller.healthNews.isEmpty
+                      ? const EmptyItem()
+                      : ListView.builder(
+                          physics: const BouncingScrollPhysics(),
+                          padding: EdgeInsets.symmetric(
+                              vertical: size.longestSide * .01,
+                              horizontal: size.shortestSide * .01),
+                          itemBuilder: (context, index) {
+                            return ViewNewsItem(
+                              source: controller.healthNews[index].source.name,
+                              size: size,
+                              description:
+                                  controller.healthNews[index].description,
+                              title: controller.healthNews[index].title,
+                              img: controller.healthNews[index].urlToImage,
+                              url: controller.healthNews[index].url,
+                            );
+                          },
+                          itemCount: controller.healthNews.length,
+                        ),
                 );
         },
       ),

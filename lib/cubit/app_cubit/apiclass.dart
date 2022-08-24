@@ -5,12 +5,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:newsapp/constant.dart';
 
 import '../../models/news_model.dart';
+import '../../services/web_services/web_services.dart';
 import 'states.dart';
 
 class Api extends Cubit<ApiStates> {
   List<NewsApi> businessNews = [];
   List<NewsApi> healthNews = [];
-  List<NewsApi> generalNews = [];
+  List<NewsApi> technologyNews = [];
   List<NewsApi> sportNews = [];
   bool isLoading = false;
 
@@ -18,71 +19,93 @@ class Api extends Cubit<ApiStates> {
 
   static Api get(context) => BlocProvider.of(context);
   getBusinessNews() async {
+    isLoading = true;
     businessNews = [];
+    emit(LoadingData());
     try {
-      businessNews = await getNewsData(businessUrl);
+      businessNews = await ApiHelper.getNews(url: method, query: {
+        "country": "eg",
+        "category": "business",
+        "apiKey": apiKey,
+      });
+      isLoading = false;
+
       emit(GetBusinessNewsState());
     } catch (e) {
       businessNews = [];
+      isLoading = false;
+
       emit(FailedData());
     }
   }
 
-  getGeneralNews() async {
-    generalNews = [];
+  gettechnologyNews() async {
+    isLoading = true;
+
+    technologyNews = [];
+    emit(LoadingData());
+
     try {
-      generalNews = await getNewsData(generalUrl);
-      emit(GetGeneralNewsState());
+      technologyNews = await ApiHelper.getNews(url: method, query: {
+        "country": "eg",
+        "category": "technology",
+        "apiKey": apiKey,
+      });
+      isLoading = false;
+
+      emit(GetTechnologyNewsState());
     } catch (e) {
-      generalNews = [];
+      technologyNews = [];
+      isLoading = false;
+
       emit(FailedData());
     }
   }
 
   gethealthNews() async {
     healthNews = [];
+    isLoading = true;
+
+    emit(LoadingData());
+
     try {
-      healthNews = await getNewsData(healthUrl);
+      healthNews = await ApiHelper.getNews(url: method, query: {
+        "country": "eg",
+        "category": "health",
+        "apiKey": apiKey,
+      });
+      isLoading = false;
+
       emit(GetHealthNewsState());
     } catch (e) {
       healthNews = [];
+      isLoading = false;
+
       emit(FailedData());
     }
   }
 
   getSportNews() async {
     sportNews = [];
+    isLoading = true;
+
+    emit(LoadingData());
+
     try {
-      sportNews = await getNewsData(sportsUrl);
+      sportNews = await ApiHelper.getNews(url: method, query: {
+        "country": "eg",
+        "category": "sports",
+        "apiKey": apiKey,
+      });
+      isLoading = false;
+
       emit(GetSportNewsState());
     } catch (e) {
       log(e.toString());
       sportNews = [];
-      emit(FailedData());
-    }
-  }
-
-  Future getNewsData(url) async {
-    late List<NewsApi> newsData;
-
-    try {
-      newsData = [];
-      isLoading = true;
-      emit(LoadingData());
-      var respone = await Dio().get(url);
-      var data = respone.data["articles"] as List;
-      for (var element in data) {
-        newsData.add(NewsApi.fromJson(element));
-      }
       isLoading = false;
-      emit(SuccesgData());
-      return newsData;
-    } catch (e) {
-      if (newsData.isEmpty) {
-        isLoading = false;
-        emit(FailedData());
-        return [];
-      }
+
+      emit(FailedData());
     }
   }
 }

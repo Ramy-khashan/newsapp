@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:newsapp/constant.dart';
 import '../../cubit/app_cubit/states.dart';
 import '../../cubit/app_cubit/apiclass.dart';
+import '../../shared/empty_shape.dart';
 import '../../shared/loading_shape.dart';
 import '../../shared/view_news.dart';
 
@@ -23,7 +24,9 @@ class SportsScreen extends StatelessWidget {
                   onRefresh: () async {
                     controller.getSportNews();
                   },
-                  child: ListView.builder(
+                  child:controller.sportNews.isEmpty
+                      ? const EmptyItem()
+                      :  ListView.builder(
                     physics: const BouncingScrollPhysics(),
                     padding: EdgeInsets.symmetric(
                         vertical: size.longestSide * .01,

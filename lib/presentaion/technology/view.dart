@@ -8,8 +8,8 @@ import '../../cubit/app_cubit/states.dart';
 import '../../shared/loading_shape.dart';
 import '../../shared/view_news.dart';
 
-class GeneralScreen extends StatelessWidget {
-  const GeneralScreen({Key? key}) : super(key: key);
+class TechnologyScreen extends StatelessWidget {
+  const TechnologyScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +23,9 @@ class GeneralScreen extends StatelessWidget {
               : RefreshIndicator(
                   color: mainColor,
                   onRefresh: () async {
-                    controller.getGeneralNews();
+                    controller.gettechnologyNews();
                   },
-                  child: controller.generalNews.isEmpty
+                  child: controller.technologyNews.isEmpty
                       ? const EmptyItem()
                       : ListView.builder(
                           physics: const BouncingScrollPhysics(),
@@ -36,14 +36,14 @@ class GeneralScreen extends StatelessWidget {
                             return ViewNewsItem(
                               size: size,
                               description:
-                                  controller.generalNews[index].description,
-                              title: controller.generalNews[index].title,
-                              img: controller.generalNews[index].urlToImage,
-                              source: controller.generalNews[index].source.name,
-                              url: controller.generalNews[index].url,
+                                  controller.technologyNews[index].description,
+                              title: controller.technologyNews[index].title,
+                              img: controller.technologyNews[index].urlToImage,
+                              source: controller.technologyNews[index].source.name,
+                              url: controller.technologyNews[index].url,
                             );
                           },
-                          itemCount: controller.generalNews.length,
+                          itemCount: controller.technologyNews.length,
                         ),
                 );
         },

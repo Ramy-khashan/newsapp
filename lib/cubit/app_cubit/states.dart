@@ -6,7 +6,7 @@ class LoadingData extends ApiStates {}
 
 class FailedData extends ApiStates {}
 class GetBusinessNewsState extends ApiStates {}
-class GetGeneralNewsState extends ApiStates {}
+class GetTechnologyNewsState extends ApiStates {}
 class GetHealthNewsState extends ApiStates {}
 class GetSportNewsState extends ApiStates {}
 
